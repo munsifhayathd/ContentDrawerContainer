@@ -42,45 +42,6 @@ extension UILayoutGuide: SafeAreaProviding { }
 
 extension UIView {
     var compatibleSafeAreaLayoutGuide: SafeAreaProviding {
-        if #available(iOS 11.0, *) {
-            return safeAreaLayoutGuide
-        } else {
-            // iOS 10 and below, topLayoutGuide and bottomLayoutGuide must be used to create
-            // replicate safeAreaLayoutGuide
-            guard
-                let parentViewController = parentViewController,
-                let safeArea = ViewControllerSafeArea(viewController: parentViewController) else {
-                    return layoutMarginsGuide
-            }
-
-            return safeArea
-        }
-    }
-}
-
-private extension UIView {
-    
-    @available(iOS, obsoleted: 11.0, message: "use safeAreaLayoutGuide instead")
-    var parentViewController: UIViewController? {
-        guard let viewController = next as? UIViewController else {
-            return superview?.parentViewController
-        }
-        return viewController
-    }
-    
-    @available(iOS, obsoleted: 11.0, message: "use safeAreaLayoutGuide instead")
-    struct ViewControllerSafeArea: SafeAreaProviding {
-        var leftAnchor: NSLayoutXAxisAnchor
-        var rightAnchor: NSLayoutXAxisAnchor
-        var topAnchor: NSLayoutYAxisAnchor
-        var bottomAnchor: NSLayoutYAxisAnchor
-
-        init?(viewController: UIViewController) {
-            guard let view = viewController.viewIfLoaded else { return nil }
-            leftAnchor = view.leftAnchor
-            rightAnchor = view.rightAnchor
-            topAnchor = viewController.topLayoutGuide.bottomAnchor
-            bottomAnchor = viewController.bottomLayoutGuide.topAnchor
-        }
+        return safeAreaLayoutGuide
     }
 }
